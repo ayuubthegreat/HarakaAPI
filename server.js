@@ -27,7 +27,9 @@ app.use((err, req, res, next) => {
     error: process.env.NODE_ENV === "development" ? err.message : {},
   });
 });
-
+app.get("/", (req, res) => {
+  res.json({message: "Welcome to the Task Management API"});
+})
 // 404 handler for undefined routes
 app.use("*", (req, res) => {
   res.status(404).json({
