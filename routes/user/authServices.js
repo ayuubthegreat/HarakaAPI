@@ -91,4 +91,7 @@ export const UpdateUserById = async (req, res) => {
     }
     return res.status(200).json({ success: true, message: "User updated", data: user });
 };
+export const StandardUserRouteFunc = async (req, res) => {
+    return res.status(200).json({ success: true, message: "Standard user route accessed" });
+};
 
