@@ -1,0 +1,1 @@
+export const superAdminData = ["yusufayuub00@gmail.com"]

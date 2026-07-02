@@ -12,34 +12,51 @@ datasource db {
 
 // DATABASE MODEL STRUCTURES USED FOR ALL DATASETS
 model User {
-  id        String   @id @default(cuid())
+  id          String   @id @default(cuid())
   websiteName String
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  email       String   @unique
+  username    String?
+  password    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  role        Role     @default(USER)
+
+  @@map("allUsers")
 }
+
+enum Role {
+  USER
+  ADMIN
+  SUPERADMIN
+}
+
 // DATASET MODEL 1--HARAKA
 model Restaraunt {
-  id        String   @id @default(cuid())
+  id        String     @id @default(cuid())
   name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  menu     MenuItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  menu      MenuItem[]
+
+  @@map("harakaRestaraunts")
 }
+
 model MenuItem {
-  id        String   @id @default(cuid())
+  id           String     @id @default(cuid())
   restarauntId String
   restaraunt   Restaraunt @relation(fields: [restarauntId], references: [id])
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  name         String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@map("harakaMenuItems")
 }
+
 model Order {
   id        String   @id @default(cuid())
   menuItem  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("harakaOrders")
 }
-
-

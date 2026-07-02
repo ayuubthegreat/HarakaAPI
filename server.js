@@ -4,10 +4,11 @@ import bodyParser from "body-parser";
 
 // Import routes
 import orderRoutes from "./routes/Haraka/order/orderRoute.js";
+import userRoutes from "./routes/user/authRoute.js"
 
 // Initialize Express app
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3005;
 
 // Middleware
 app.use(cors()); // Enable CORS for all routes
@@ -17,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 // Mount API routes
 app.use("/orders", orderRoutes);
+app.use("/auth", userRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
