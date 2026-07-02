@@ -1,4 +1,4 @@
-import prisma from "../lib/prisma.js";
+import prisma from "../../../lib/prisma.js";
 
 const menu_items = ["ChickenQuesadilla", "Beef Tacos", "Veggie Burrito", "Fish Tacos", "Chicken Burrito Bowl", "Steak Fajitas", "Shrimp Tacos", "Veggie Quesadilla", "Chicken Enchiladas", "Beef Burrito Bowl"];
 export const CreateOrder = async (req, res) => {

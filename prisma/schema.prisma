@@ -10,11 +10,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Task {
-  id          String    @id @default(cuid())
-  title       String
-  description String
-
-  @@map("tasks")
+// DATABASE MODEL STRUCTURES USED FOR ALL DATASETS
+model User {
+  id        String   @id @default(cuid())
+  websiteName String
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
+// DATASET MODEL 1--HARAKA
+model Restaraunt {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  menu     MenuItem[]
+}
+model MenuItem {
+  id        String   @id @default(cuid())
+  restarauntId String
+  restaraunt   Restaraunt @relation(fields: [restarauntId], references: [id])
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Order {
+  id        String   @id @default(cuid())
+  menuItem  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 
