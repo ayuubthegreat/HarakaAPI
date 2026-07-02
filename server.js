@@ -3,7 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 
 // Import routes
-import taskRoutes from "./routes/tasks.js";
+import orderRoutes from "./routes/orderRoute.js";
 
 // Initialize Express app
 const app = express();
@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 
 // Mount API routes
-app.use("/api", taskRoutes);
+app.use("/orders", orderRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
