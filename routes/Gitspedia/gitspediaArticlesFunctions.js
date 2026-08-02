@@ -54,6 +54,12 @@ export const UpdateArticle = async (req, res) => {
     if (!title || !searchBlurb || !titleImageLink || !mainParagraph || !paragraphs || !infoboxes) {
         return res.status(400).json({ success: false, message: "Missing required fields" });
     }
+    for (const paragraph of paragraphs) {
+        delete paragraph.articleID;
+    }
+    for (const infobox of infoboxes) {
+        delete infobox.articleID;
+    }
     try {
         const updatedArticle = await prisma.gitspediaArticle.update({
             where: { id: id },
