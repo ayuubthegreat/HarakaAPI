@@ -72,7 +72,8 @@ export const UpdateArticle = async (req, res) => {
                 infoboxes: { deleteMany: {}, create: infoboxes }
             }
         });
-        res.status(200).json({ success: true, message: "Article updated successfully", data: updatedArticle });
+        const allArticles = await prisma.gitspediaArticle.findMany({include: { paragraphs: true, infoboxes: true }});
+        res.status(200).json({ success: true, message: "Article updated successfully", data: allArticles });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Failed to update article" });
