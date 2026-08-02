@@ -3,6 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 
 // Import routes
+import restarauntRoutes from "./routes/Haraka/restaraunt/restarauntRoute.js"
 import orderRoutes from "./routes/Haraka/order/orderRoute.js";
 import userRoutes from "./routes/user/authRoute.js"
 
@@ -17,8 +18,9 @@ app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 
 // Mount API routes
-app.use("/orders", orderRoutes);
+app.use("/haraka/orders", orderRoutes);
 app.use("/auth", userRoutes);
+app.use("/haraka/restaraunts", restarauntRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

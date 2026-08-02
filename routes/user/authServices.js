@@ -75,7 +75,7 @@ export const DeleteUserById = async (req, res) => {
 // Update user by ID
 export const UpdateUserById = async (req, res) => {
     const { id } = req.params;
-    const { email, password, websiteName } = req.body;
+    const { email, password, websiteName, role } = req.body;
     const user = await prisma.user.update({
         where: {
             id,
@@ -84,12 +84,18 @@ export const UpdateUserById = async (req, res) => {
             email,
             password,
             websiteName,
+            role,
         },
     });
     if (!user) {
         return res.status(404).json({ success: false, message: "User not found" });
     }
     return res.status(200).json({ success: true, message: "User updated", data: user });
+};
+// Find all users
+export const FindAllUsers = async (req, res) => {
+    const users = await prisma.user.findMany();
+    return res.status(200).json({ success: true, message: "Users retrieved successfully", data: users });
 };
 export const StandardUserRouteFunc = async (req, res) => {
     return res.status(200).json({ success: true, message: "Standard user route accessed" });

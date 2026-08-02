@@ -33,6 +33,7 @@ enum Role {
 // DATASET MODEL 1--HARAKA
 model Restaraunt {
   id        String     @id @default(cuid())
+  adminIDs  String[]   @default([])
   name      String
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
@@ -46,6 +47,7 @@ model MenuItem {
   restarauntId String
   restaraunt   Restaraunt @relation(fields: [restarauntId], references: [id])
   name         String
+  price        Int
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 
@@ -53,10 +55,46 @@ model MenuItem {
 }
 
 model Order {
-  id        String   @id @default(cuid())
-  menuItem  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(cuid())
+  restarauntID String   @default("")
+  menuItemID   String
+  quantity     Int
+  completed    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@map("harakaOrders")
+}
+
+// DATASET MODEL 2 --GITSPEDIA
+model GitspediaArticle {
+  id            String                      @id @default(cuid())
+  title         String
+  searchBlurb   String
+  mainParagraph String
+  titleImageLink String
+  paragraphs    GitspediaArticleParagraph[]
+  infoboxes     GitspediaArticleInfobox[]
+
+  @@map("gitspediaArticles")
+}
+
+model GitspediaArticleParagraph {
+  id        String           @id @default(cuid())
+  articleID String
+  article   GitspediaArticle @relation(fields: [articleID], references: [id])
+  title     String
+  paragraph String
+
+  @@map("gitspediaArticleParagraphs")
+}
+
+model GitspediaArticleInfobox {
+  id        String           @id @default(cuid())
+  articleID String
+  article   GitspediaArticle @relation(fields: [articleID], references: [id])
+  title     String
+  paragraph String
+
+  @@map("gitspediaArticleInfoboxes")
 }
