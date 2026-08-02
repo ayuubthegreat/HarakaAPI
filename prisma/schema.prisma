@@ -84,7 +84,7 @@ model GitspediaArticleParagraph {
   articleID String
   article   GitspediaArticle @relation(fields: [articleID], references: [id])
   title     String
-  paragraph String
+  content String
 
   @@map("gitspediaArticleParagraphs")
 }
@@ -93,8 +93,8 @@ model GitspediaArticleInfobox {
   id        String           @id @default(cuid())
   articleID String
   article   GitspediaArticle @relation(fields: [articleID], references: [id])
-  title     String
-  paragraph String
+  key     String
+  value String
 
   @@map("gitspediaArticleInfoboxes")
 }

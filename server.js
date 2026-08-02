@@ -3,9 +3,10 @@ import cors from "cors";
 import bodyParser from "body-parser";
 
 // Import routes
-import restarauntRoutes from "./routes/Haraka/restaraunt/restarauntRoute.js"
-import orderRoutes from "./routes/Haraka/order/orderRoute.js";
+import haraka_restarauntRoutes from "./routes/Haraka/restaraunt/restarauntRoute.js"
+import haraka_orderRoutes from "./routes/Haraka/order/orderRoute.js";
 import userRoutes from "./routes/user/authRoute.js"
+import gitspedia_articleRoutes from "./routes/Gitspedia/gitspediaArticleRoutes.js"
 
 // Initialize Express app
 const app = express();
@@ -18,9 +19,14 @@ app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 
 // Mount API routes
-app.use("/haraka/orders", orderRoutes);
 app.use("/auth", userRoutes);
-app.use("/haraka/restaraunts", restarauntRoutes);
+
+// Haraka routes
+app.use("/haraka/orders", haraka_orderRoutes);
+app.use("/haraka/restaraunts", haraka_restarauntRoutes);
+
+// Gitspedia Routes
+app.use("/gitspedia/articles", gitspedia_articleRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
