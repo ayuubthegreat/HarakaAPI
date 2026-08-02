@@ -75,6 +75,7 @@ model GitspediaArticle {
   titleImageLink String
   paragraphs    GitspediaArticleParagraph[]
   infoboxFields     GitspediaArticleInfobox[]
+  tags String[]
 
   @@map("gitspediaArticles")
 }

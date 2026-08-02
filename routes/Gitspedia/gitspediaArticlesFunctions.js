@@ -4,6 +4,11 @@ import prisma from "../../lib/prisma.js";
 export const LoadArticles = async (req, res) => {
     try {
         const articles = await prisma.gitspediaArticle.findMany({include: { paragraphs: true, infoboxFields: true }});
+        for (const article of articles) {
+            if (!article.tags) {
+                article.tags = [];
+            }
+        }
         res.status(200).json({ success: true, message: "Articles fetched successfully", data: articles });
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch articles" });
@@ -14,7 +19,8 @@ export const LoadArticleByID = async (req, res) => {
     const { id } = req.params;
     try {
         const article = await prisma.gitspediaArticle.findUnique({
-            where: { id: id, }
+            where: { id: id, },
+            include: { paragraphs: true, infoboxFields: true }
         });
         if (!article) {
             return res.status(404).json({ success: false, message: "Article not found" });
@@ -26,10 +32,11 @@ export const LoadArticleByID = async (req, res) => {
 }
 
 export const CreateArticle = async (req, res) => {
-    const {title, searchBlurb, titleImageLink, mainParagraph, paragraphs, infoboxFields} = req.body;
-    if (!title || !searchBlurb || !titleImageLink || !mainParagraph || !paragraphs || !infoboxFields) {
+    const {title, searchBlurb, titleImageLink, mainParagraph, paragraphs, infoboxFields, tags} = req.body;
+    if (!title || !searchBlurb || !titleImageLink || !mainParagraph || !paragraphs || !infoboxFields || !tags) {
         return res.status(400).json({ success: false, message: "Missing required fields" });
     }
+    console.log(req.body);
     try {
         const newArticle = await prisma.gitspediaArticle.create({
             data: {
@@ -38,9 +45,11 @@ export const CreateArticle = async (req, res) => {
                 titleImageLink,
                 mainParagraph,
                 paragraphs: { create: paragraphs },
-                infoboxFields: { create: infoboxFields }
+                infoboxFields: { create: infoboxFields },
+                tags
             }
         });
+       
         res.status(201).json({ success: true, message: "Article created successfully", data: newArticle });
     } catch (error) {
         console.error(error);
@@ -50,7 +59,7 @@ export const CreateArticle = async (req, res) => {
 
 export const UpdateArticle = async (req, res) => {
     const { id } = req.params;
-    const {title, searchBlurb, titleImageLink, mainParagraph, paragraphs, infoboxFields} = req.body;
+    const {title, searchBlurb, titleImageLink, mainParagraph, paragraphs, infoboxFields, tags} = req.body;
     if (!title || !searchBlurb || !titleImageLink || !mainParagraph || !paragraphs || !infoboxFields) {
         return res.status(400).json({ success: false, message: "Missing required fields" });
     }
@@ -69,7 +78,8 @@ export const UpdateArticle = async (req, res) => {
                 titleImageLink,
                 mainParagraph,
                 paragraphs: { deleteMany: {}, create: paragraphs },
-                infoboxFields: { deleteMany: {}, create: infoboxFields }
+                infoboxFields: { deleteMany: {}, create: infoboxFields },
+                tags
             }
         });
         const allArticles = await prisma.gitspediaArticle.findMany({include: { paragraphs: true, infoboxFields: true }});
