@@ -66,17 +66,21 @@ model Order {
   @@map("harakaOrders")
 }
 
-// DATASET MODEL 2 --GITSPEDIA
+// DATASET MODEL 2 --GITSPEDIA and MODEL 3 --MUFTIPEDIA
 model GitspediaArticle {
   id            String                      @id @default(cuid())
   title         String
   searchBlurb   String
   mainParagraph String
   titleImageLink String
+  titleImageDescription String @default("")
   paragraphs    GitspediaArticleParagraph[]
   infoboxFields     GitspediaArticleInfobox[]
+  comments GitspediaArticleComment[]
+  views Int @default(0)
   tags String[]
-
+  updatedAt DateTime @updatedAt @default(now())
+  createdAt DateTime @default(now())
   @@map("gitspediaArticles")
 }
 
@@ -98,4 +102,14 @@ model GitspediaArticleInfobox {
   value String
 
   @@map("gitspediaArticleInfoboxes")
+}
+
+model GitspediaArticleComment {
+  id        String           @id @default(cuid())
+  articleID String 
+  article   GitspediaArticle @relation(fields: [articleID], references: [id])
+  username String 
+  email String 
+  message String
+  @@map("gitspediaArticleComments")
 }

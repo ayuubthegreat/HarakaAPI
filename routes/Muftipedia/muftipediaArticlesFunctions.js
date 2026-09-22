@@ -59,7 +59,7 @@ export const CreateArticle = async (req, res) => {
 
 export const UpdateArticle = async (req, res) => {
     const { id } = req.params;
-    const {title, searchBlurb, titleImageLink, mainParagraph, paragraphs, infoboxFields, tags, views} = req.body;
+    const {title, searchBlurb, titleImageLink, mainParagraph, paragraphs, infoboxFields, tags} = req.body;
     if (!title || !searchBlurb || !titleImageLink || !mainParagraph || !paragraphs || !infoboxFields) {
         return res.status(400).json({ success: false, message: "Missing required fields" });
     }
@@ -79,8 +79,7 @@ export const UpdateArticle = async (req, res) => {
                 mainParagraph,
                 paragraphs: { deleteMany: {}, create: paragraphs },
                 infoboxFields: { deleteMany: {}, create: infoboxFields },
-                tags,
-                views
+                tags
             }
         });
         const allArticles = await prisma.gitspediaArticle.findMany({include: { paragraphs: true, infoboxFields: true }});
