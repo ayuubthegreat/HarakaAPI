@@ -82,34 +82,82 @@ model GitspediaArticle {
   updatedAt DateTime @updatedAt @default(now())
   createdAt DateTime @default(now())
   @@map("gitspediaArticles")
+  
+}
+model MuftipediaArticle {
+   id            String                      @id @default(cuid())
+  title         String
+  searchBlurb   String
+  mainParagraph String
+  titleImageLink String
+  titleImageDescription String @default("")
+  paragraphs    MuftipediaArticleParagraph[]
+  infoboxFields     MuftipediaArticleInfobox[]
+  comments MuftipediaArticleComment[]
+  views Int @default(0)
+  tags String[]
+  updatedAt DateTime @updatedAt @default(now())
+  createdAt DateTime @default(now())
+  @@map("muftipediaArticles")
 }
 
-model GitspediaArticleParagraph {
-  id        String           @id @default(cuid())
-  articleID String
-  article   GitspediaArticle @relation(fields: [articleID], references: [id])
-  title     String
-  content String
 
-  @@map("gitspediaArticleParagraphs")
-}
+  model GitspediaArticleParagraph {
+    id        String           @id @default(cuid())
+    articleID String
+    article   GitspediaArticle @relation(fields: [articleID], references: [id])
+    title     String
+    content String
 
-model GitspediaArticleInfobox {
-  id        String           @id @default(cuid())
-  articleID String
-  article   GitspediaArticle @relation(fields: [articleID], references: [id])
-  key     String
-  value String
+    @@map("gitspediaArticleParagraphs")
+  }
 
-  @@map("gitspediaArticleInfoboxes")
-}
+  model GitspediaArticleInfobox {
+    id        String           @id @default(cuid())
+    articleID String
+    article   GitspediaArticle @relation(fields: [articleID], references: [id])
+    key     String
+    value String
 
-model GitspediaArticleComment {
-  id        String           @id @default(cuid())
-  articleID String 
-  article   GitspediaArticle @relation(fields: [articleID], references: [id])
-  username String 
-  email String 
-  message String
-  @@map("gitspediaArticleComments")
-}
+    @@map("gitspediaArticleInfoboxes")
+  }
+
+  model GitspediaArticleComment {
+    id        String           @id @default(cuid())
+    articleID String 
+    article   GitspediaArticle @relation(fields: [articleID], references: [id])
+    username String 
+    email String 
+    content String
+    @@map("gitspediaArticleComments")
+  }
+
+  model MuftipediaArticleParagraph {
+    id        String           @id @default(cuid())
+    articleID String
+    article   MuftipediaArticle @relation(fields: [articleID], references: [id])
+    title     String
+    content String
+
+    @@map("muftipediaArticleParagraphs")
+  }
+
+  model MuftipediaArticleInfobox {
+    id        String           @id @default(cuid())
+    articleID String
+    article   MuftipediaArticle @relation(fields: [articleID], references: [id])
+    key     String
+    value String
+
+    @@map("muftipediaArticleInfoboxes")
+  }
+
+  model MuftipediaArticleComment {
+    id        String           @id @default(cuid())
+    articleID String 
+    article   MuftipediaArticle @relation(fields: [articleID], references: [id])
+    username String 
+    email String 
+    content String
+    @@map("muftipediaArticleComments")
+  }
