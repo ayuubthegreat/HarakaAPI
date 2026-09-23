@@ -1,5 +1,5 @@
 import express from "express";
-import {LoadArticles, LoadArticleByID, CreateArticle, UpdateArticle, DeleteArticle, LoadComments, CreateComment, DeleteComment, UpdateComment} from "./gitspediaArticlesFunctions.js";
+import {LoadArticles, LoadArticleByID, CreateArticle, UpdateArticle, DeleteArticle, LoadComments, CreateComment, DeleteComment, UpdateComment, Like_UnlikeComment, ClearLikeOfComment} from "./gitspediaArticlesFunctions.js";
 
 const router = express.Router();
 
@@ -12,4 +12,7 @@ router.get("/comments/:articleID", LoadComments);
 router.post("/comments/:articleID", CreateComment);
 router.delete("/comments/:id", DeleteComment);
 router.put("/comments/:id", UpdateComment);
+router.post("/comments/like_unlike/:commentID", Like_UnlikeComment);
+router.post("/comments/clearLike/:commentID", ClearLikeOfComment);
+
 export default router;
