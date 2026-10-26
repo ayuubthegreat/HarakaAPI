@@ -1,5 +1,5 @@
 import express from 'express'
-import { Login, Register, FindUserById, DeleteUserById, UpdateUserById, StandardUserRouteFunc, FindAllUsers } from './authServices.js';
+import { Login, Register, FindUserById, DeleteUserById, UpdateUserById, StandardUserRouteFunc, FindAllUsers, FindAllUsersOfWebsite } from './authServices.js';
 
 
 const router = express.Router();
@@ -10,5 +10,6 @@ router.delete('/user/:id', DeleteUserById);
 router.put('/user/:id', UpdateUserById);
 router.get('/', StandardUserRouteFunc);
 router.get('/users', FindAllUsers);
+router.get('/users/website/:websiteName', FindAllUsersOfWebsite);
 
 export default router;

@@ -104,6 +104,15 @@ export const FindAllUsers = async (req, res) => {
     const users = await prisma.user.findMany();
     return res.status(200).json({ success: true, message: "Users retrieved successfully", data: users });
 };
+export const FindAllUsersOfWebsite = async (req, res) => {
+    const { websiteName } = req.params;
+    const users = await prisma.user.findMany({
+        where: {
+            websiteName,
+        },
+    });
+    return res.status(200).json({ success: true, message: "Users retrieved successfully", data: users });
+};
 export const StandardUserRouteFunc = async (req, res) => {
     return res.status(200).json({ success: true, message: "Standard user route accessed" });
 };

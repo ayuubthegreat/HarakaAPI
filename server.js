@@ -7,6 +7,8 @@ import haraka_restarauntRoutes from "./routes/Haraka/restaraunt/restarauntRoute.
 import haraka_orderRoutes from "./routes/Haraka/order/orderRoute.js";
 import userRoutes from "./routes/user/authRoute.js"
 import gitspedia_articleRoutes from "./routes/Gitspedia/gitspediaArticleRoutes.js"
+import pretech_appointmentRoutes from "./routes/Pretech/pretechAppointmentRoutes.js"
+import cmsWebsiteRoutes from "./routes/CMSWebsite/routes.js"
 
 // Initialize Express app
 const app = express();
@@ -27,6 +29,12 @@ app.use("/haraka/restaraunts", haraka_restarauntRoutes);
 
 // Gitspedia Routes
 app.use("/gitspedia/articles", gitspedia_articleRoutes);
+
+// Pretech Routes
+app.use("/pretech/appointments", pretech_appointmentRoutes);
+
+// CMS Website Routes
+app.use("/cmsSite", cmsWebsiteRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
