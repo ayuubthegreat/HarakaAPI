@@ -53,7 +53,7 @@ export const AddProj = async (req, res) => {
     }
 }
 export const UpdateProj = async (req, res) => {
-    const {id, author, title, shortDesc, description, tags, version_num, release_date, percentage, version_percentage, relative_image_link, gitspedia_href} = req.body;
+    const {id, author, title, shortDesc, description, tags, version_num, release_date = "", percentage, version_percentage, relative_image_link, gitspedia_href} = req.body;
     try {
         const proj = await prisma.cMSWebsiteProject.findUnique({
             where: {id: id}
@@ -62,7 +62,7 @@ export const UpdateProj = async (req, res) => {
             res.status(404).json({message: "Project ID is not valid."})
             return;
         }
-        const releaseDate = await parseDate(release_date) ?? proj.release_date;
+        const releaseDate = (release_date === "") ? proj.release_date : await parseDate(release_date);
         await prisma.cMSWebsiteProject.update({
             where: {id: id},
             data: {
