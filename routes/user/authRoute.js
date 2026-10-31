@@ -10,6 +10,6 @@ router.delete('/user/:id', DeleteUserById);
 router.put('/user/:id', UpdateUserById);
 router.get('/', StandardUserRouteFunc);
 router.get('/users', FindAllUsers);
-router.get('/users/website/:websiteName', FindAllUsersOfWebsite);
+router.get('/users/:websiteName', FindAllUsersOfWebsite);
 
 export default router;

@@ -4,8 +4,10 @@ import prisma from "../../lib/prisma.js";
 export const GetAllArticles = async (req, res, message = "Article retrieval successful!") => {
     try {
         const allArticles = await prisma.articleModel.findMany({});
+        console.log(allArticles);
         return res.status(200).json({message, data: allArticles});
     } catch (error) {
+        console.error(error);
         return res.status(500).json({message: "Error: " + error});
     }
 }
@@ -83,5 +85,13 @@ export const DeleteAllArticles = async (req, res) => {
         console.error(error);
         return res.status(500).json({message: "Error: " + error});
         
+    }
+}
+export const AppendNote = async (req, res) => {
+    try {
+        const {note} = req.body;
+        
+    } catch (error) {
+        console.error(error);
     }
 }

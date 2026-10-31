@@ -5,10 +5,12 @@ import {superAdminData} from "../../bakedData/superAdminData.js"
 
 // Login for user using email and password
 export const Login = async (req, res) => {
-    const { email, password, websiteName } = req.body;
-    const user = await prisma.user.findFirst({
+    const { username, password, websiteName } = req.body;
+    console.log(req.body);
+    try {
+       const user = await prisma.user.findFirst({
         where: {
-            email,
+            username,
             websiteName
         },
     });
@@ -18,16 +20,19 @@ export const Login = async (req, res) => {
     // Add password verification logic here if applicable
     console.log(user);
     console.log(websiteName);
-    return res.status(200).json({ success: true, message: "Login successful", data: user });
+    return res.status(200).json({ success: true, message: "Login successful", data: user }); 
+    } catch (error) {
+        return res.status(500).json({success: false, message: "Login failed. " + error});
+    }
 };
 // Register for user using email and password
 export const Register = async (req, res) => {
-    const { email, password, websiteName, username } = req.body;
+    const { email, password, websiteName, username, firstName, lastName, role = "" } = req.body;
     if (!email || !password || !websiteName || !username) {
         console.error("Missing required fields");
         return res.status(400).json({ success: false, message: "All fields are required" });
     }
-    let role = "USER";
+    console.log(req.body);
     if (superAdminData.includes(email)) {
         role = "SUPERADMIN";
     }
@@ -56,6 +61,7 @@ export const Register = async (req, res) => {
 // Find user by ID
 export const FindUserById = async (req, res) => {
     const { id } = req.params;
+    console.log(id);
     const user = await prisma.user.findFirst({
         where: {
             id,
@@ -111,6 +117,7 @@ export const FindAllUsersOfWebsite = async (req, res) => {
             websiteName,
         },
     });
+    users = users.filter((user) => user.role !== "BLOCKED");
     return res.status(200).json({ success: true, message: "Users retrieved successfully", data: users });
 };
 export const StandardUserRouteFunc = async (req, res) => {
