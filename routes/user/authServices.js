@@ -5,13 +5,12 @@ import {superAdminData} from "../../bakedData/superAdminData.js"
 
 // Login for user using email and password
 export const Login = async (req, res) => {
-    const { username, password, websiteName } = req.body;
+    const { email, password, websiteName } = req.body;
     console.log(req.body);
     try {
        const user = await prisma.user.findFirst({
         where: {
-            username,
-            websiteName
+            email,
         },
     });
     if (!user) {
