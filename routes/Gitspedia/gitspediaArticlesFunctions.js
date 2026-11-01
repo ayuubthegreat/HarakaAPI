@@ -4,7 +4,6 @@ import prisma from "../../lib/prisma.js";
 export const GetAllArticles = async (req, res, message = "Article retrieval successful!") => {
     try {
         const allArticles = await prisma.articleModel.findMany({});
-        console.log(allArticles);
         return res.status(200).json({message, data: allArticles});
     } catch (error) {
         console.error(error);
@@ -13,6 +12,7 @@ export const GetAllArticles = async (req, res, message = "Article retrieval succ
 }
 export const CreateArticle = async (req, res) => {
     const {title, slug, short_desc, long_desc, main_paragraph, content, infoboxFields, displayImageContent} = req.body;
+    console.log(req.body);
     try {
         await prisma.articleModel.create({
             data: {

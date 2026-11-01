@@ -27,8 +27,8 @@ export const Login = async (req, res) => {
 };
 // Register for user using email and password
 export const Register = async (req, res) => {
-    const { email, password, websiteName, username, firstName, lastName, role = "" } = req.body;
-    if (!email || !password || !websiteName || !username) {
+    let { email, password, username, role = "" } = req.body;
+    if (!email || !password || !username) {
         console.error("Missing required fields");
         return res.status(400).json({ success: false, message: "All fields are required" });
     }
@@ -38,8 +38,7 @@ export const Register = async (req, res) => {
     }
     const existingUser = await prisma.user.findFirst({
         where: {
-            email,
-            websiteName
+            email
         },
     });
     if (existingUser) {
@@ -51,7 +50,6 @@ export const Register = async (req, res) => {
             username,
             email,
             password,
-            websiteName,
             role,
         },
     });
