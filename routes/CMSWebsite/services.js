@@ -115,3 +115,19 @@ export const DeleteProj = async (req, res) => {
         return res.status(500).json({message: "Delete project failed."});
     }
 }
+export const GetAllItems = async (req, res) => {
+
+}
+
+export const AddStoreItem = async (req, res) => {
+
+}
+
+export const UpdateStoreItem = async (req, res) => {
+
+}
+
+export const DeleteStoreItem = async (req, res) => {
+
+}
+

@@ -146,8 +146,35 @@ model CMSWebsiteProject {
   percentage   Int
   version_percentage Int @default(0)
   gitspedia_href String @default("https://www.gitspedia.org")
-
-
   @@map("cmsWebsiteProject")
+}
+
+// DATASET MODEL 6--- CMS Store Items
+model CMSStoreItem {
+  id          String   @id @default(cuid())
+  name      String @default("Item")
+  description String @default("Description")
+  price       Float @default(0.0)
+  stock       Int @default(0)
+  imageContent Json? // Structure: { "relativeUrl": "src/assets/cmsLogo.png", "altText": "CMS Logo" }
+  ageRating CMSStoreItemAgeRating @default(AA)
+  type CMSStoreItemType @default(Software)
+  subscriptionDuration Int @default(-1) // Duration in days (-1 means unlimited, 0 means no subscription)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@map("cmsStoreItems")
+}
+enum CMSStoreItemType {
+  Book 
+  Software
+  Video Game
+  Subscription
+  Service
+}
+enum CMSStoreItemAgeRating {
+  AA
+  10Plus
+  15Plus
+  18Plus
 }
 
