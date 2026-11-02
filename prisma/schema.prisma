@@ -167,14 +167,14 @@ model CMSStoreItem {
 enum CMSStoreItemType {
   Book 
   Software
-  Video Game
+  Video_Game
   Subscription
   Service
 }
 enum CMSStoreItemAgeRating {
   AA
-  10Plus
-  15Plus
-  18Plus
+  TenPlus
+  FifteenPlus
+  EighteenPlus
 }
 
