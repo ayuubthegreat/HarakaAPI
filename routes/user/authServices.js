@@ -11,6 +11,7 @@ export const Login = async (req, res) => {
        const user = await prisma.user.findFirst({
         where: {
             email,
+            password
         },
     });
     if (!user) {
@@ -21,6 +22,7 @@ export const Login = async (req, res) => {
     console.log(websiteName);
     return res.status(200).json({ success: true, message: "Login successful", data: user }); 
     } catch (error) {
+        console.error(error);
         return res.status(500).json({success: false, message: "Login failed. " + error});
     }
 };
