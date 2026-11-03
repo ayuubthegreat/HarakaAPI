@@ -1,16 +1,21 @@
 import prisma from "../../lib/prisma.js";
 
 export const parseDate = async(release_date = "2007-05-05") => {
+    if (new Date(release_date).toString() !== "Invalid Date") {
+        return new Date(release_date);
+    }
     const nums = release_date.split('-');
     if (nums.length !== 3) {
         throw new Error("Date structure invalid." + release_date);
     }
+    console.log("Parsing date:", release_date);
     const year = Number(nums[0]);
     const month = Number(nums[1]);
     const day = Number(nums[2]);
     const date = new Date(0);
     date.setUTCFullYear(year, month - 1, day);
     date.setUTCHours(0, 0, 0, 0);
+    console.log("Parsed date:", date);
     return date;
 }
 
@@ -56,6 +61,7 @@ export const AddProj = async (req, res) => {
 export const UpdateProj = async (req, res) => {
     const {id, author, title, shortDesc, description, tags, version_num, release_date = "", percentage, version_percentage, relative_image_link, gitspedia_href} = req.body;
     try {
+        console.log(req.body);
         const proj = await prisma.cMSWebsiteProject.findUnique({
             where: {id: id}
         });
@@ -82,6 +88,7 @@ export const UpdateProj = async (req, res) => {
         })
        await loadAllProjects(req, res, "Project with id " + id + "successfuly updated!");
     } catch (error) {
+         console.error(error);
          res.status(500).json({message: "Server error! Could not create a project: " + error})
     }
 }
