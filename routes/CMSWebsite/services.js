@@ -1,13 +1,13 @@
 import prisma from "../../lib/prisma.js";
 
-export const parseDate = async(release_date = "05/05/2007") => {
-    const nums = release_date.split('/');
+export const parseDate = async(release_date = "2007-05-05") => {
+    const nums = release_date.split('-');
     if (nums.length !== 3) {
-        throw new Error("Date structure invalid.");
+        throw new Error("Date structure invalid." + release_date);
     }
-    const month = Number(nums[0]);
-    const day = Number(nums[1]);
-    const year = Number(nums[2]);
+    const year = Number(nums[0]);
+    const month = Number(nums[1]);
+    const day = Number(nums[2]);
     const date = new Date(0);
     date.setUTCFullYear(year, month - 1, day);
     date.setUTCHours(0, 0, 0, 0);
@@ -27,13 +27,13 @@ export const loadAllProjects = async (req, res, message = "Projects successfully
 }
 
 export const AddProj = async (req, res) => {
-    const {author, title, shortDesc, description, tags, version_num, release_date, percentage, version_percentage, relative_image_link, gitspedia_href} = req.body;
+    const {title, shortDesc, description, tags, version_num, release_date, percentage, version_percentage, relative_image_link, gitspedia_href} = req.body;
     try {
         const releaseDate = await parseDate(release_date);
         
          await prisma.cMSWebsiteProject.create({
             data: {
-                author,
+                author: "Ayuub Yusuf",
                 title,
                 shortDesc,
                 description,
@@ -49,6 +49,7 @@ export const AddProj = async (req, res) => {
         await loadAllProjects(req, res, "Project successfully created!");
        
     } catch (error) {
+        console.error(error);
         res.status(500).json({message: "Server error! Could not create a project: " + error})
     }
 }
