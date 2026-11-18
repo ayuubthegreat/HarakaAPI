@@ -139,3 +139,63 @@ export const DeleteStoreItem = async (req, res) => {
 
 }
 
+export const LoadBusinessLogs = async (req, res, message = "Found all business logs successfully!") => {
+    try {
+        const allArticles = await prisma.cMSBusinessLog.findMany({});
+        return res.status(200).json({message: message, data: allArticles})
+    } catch (error) {
+        return res.status(500).json({message: "Failed to perform business log task: " + error});
+    }
+}
+export const AddBusinessLog = async (req, res) => {
+    const {title, content, tags, authors} = req.body;
+    try {
+        await prisma.cMSBusinessLog.create({
+            data: {
+                title,
+                content,
+                tags,
+                authors,
+            }
+        })
+        return LoadBusinessLogs(req, res, "Added business log successfully!");
+    } catch (error) {
+        console.error(error);
+        res.status(200).json({message: "Failed to add business log...." + error})
+    }
+}
+export const UpdateBusinessLog = async (req, res) => {
+    const {id} = req.params;
+    const {title, content, tags, authors} = req.body;
+    console.log(id);
+    console.log(req.body);
+    try {
+        await prisma.cMSBusinessLog.update({
+            where: {id: id},
+            data: {
+                title,
+                content,
+                tags,
+                authors
+            }
+        })
+        return LoadBusinessLogs(req, res, "Updated business log successfully!");
+    } catch (error) {
+        console.error(error);
+        res.status(200).json({message: "Failed to add business log...." + error})
+    }
+}
+export const DeleteBusinessLog = async (req, res) => {
+    const {id} = req.params;
+    try {
+        await prisma.cMSBusinessLog.delete({
+            where: {id: id}
+        })
+        return LoadBusinessLogs(req, res, "Deleted business log with " + id + " successfully!");
+    } catch (error) {
+        console.error(error);
+        res.status(200).json({message: "Failed to delete business log....." + error});
+    }
+
+}
+
